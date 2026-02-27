@@ -1,57 +1,47 @@
 ```mermaid
 
 erDiagram
-    Room_Categories {
-        int category_id PK
-        varchar category_name
-        numeric price_per_night
-    }
-    
-    Rooms {
-        int room_id PK
-        varchar room_number
-        int category_id FK
-        varchar status
-    }
-    
-    Guests {
-        int guest_id PK
-        varchar first_name
-        varchar last_name
-        varchar phone
+    Users {
+        int user_id PK
+        varchar name
         varchar email
-    }
-    
-    Employees {
-        int employee_id PK
-        varchar first_name
-        varchar last_name
-        varchar position
-        varchar gender
-    }
-    
-    Bookings {
-        int booking_id PK
-        int guest_id FK
-        int room_id FK
-        int employee_id FK
-        date check_in_date
-        date check_out_date
-    }
-    
-    Payments {
-        int payment_id PK
-        int booking_id FK
-        numeric amount
-        date payment_date
-        varchar payment_method
+        varchar password_hash
+        date registration_date
     }
 
-    %% Определение связей (Relations)
-    Room_Categories ||--o{ Rooms : "қамтиды (has)"
-    Guests ||--o{ Bookings : "жасайды (makes)"
-    Rooms ||--o{ Bookings : "брондалады (booked)"
-    Employees ||--o{ Bookings : "рәсімдейді (processes)"
-    Bookings ||--|| Payments : "төленеді (paid via)"
+    Categories {
+        int category_id PK
+        varchar category_name
+    }
+
+    Products {
+        int product_id PK
+        varchar name
+        numeric price
+        int stock_quantity
+        int category_id FK
+    }
+
+    Orders {
+        int order_id PK
+        int user_id FK
+        timestamp order_date
+        numeric total_amount
+        varchar status
+    }
+
+    Order_Items {
+        int order_item_id PK
+        int order_id FK
+        int product_id FK
+        int quantity
+        numeric price
+    }
+
+    %% Байланыстар (Relations)
+    Categories ||--o{ Products : "қамтиды (has)"
+    Users ||--o{ Orders : "жасайды (makes)"
+    Orders ||--o{ Order_Items : "құралады (consists of)"
+    Products ||--o{ Order_Items : "кіреді (included in)"
 
  ```
