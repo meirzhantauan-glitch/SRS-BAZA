@@ -1,9 +1,8 @@
 -- 1. РӨЛДЕР МЕН ПАЙДАЛАНУШЫЛАРДЫ ҚҰРУ
--- Жаңа рөлдер құру
+
 CREATE ROLE admin_role;
 CREATE ROLE customer_role;
-
--- Пайдаланушыларды (логин/пароль) құру
+-- лог пароль
 CREATE USER shop_admin WITH PASSWORD 'admin123';
 CREATE USER shop_user WITH PASSWORD 'user123';
 
@@ -11,9 +10,11 @@ CREATE USER shop_user WITH PASSWORD 'user123';
 GRANT admin_role TO shop_admin;
 GRANT customer_role TO shop_user;
 
--- Құқықтар (privileges) беру
+-- Құқықтар  беру
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO admin_role;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO customer_role;
+
+
 
 -- 2. КЕСТЕЛЕРДІ ҚҰРУ ЖӘНЕ ШЕКТЕУЛЕР (Constraints)
 CREATE TABLE Categories (
@@ -57,9 +58,13 @@ CREATE TABLE Order_Items (
   CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES Products (product_id)
 );
 
+
+
 -- 3. ИНДЕКСТЕРДІ ҚОСУ (Өнімділікті арттыру үшін)
 CREATE INDEX idx_products_category ON Products(category_id);
 CREATE INDEX idx_orders_user ON Orders(user_id);
+
+
 
 -- 4. ТЕСТІЛІК ДЕРЕКТЕРДІ ЕНГІЗУ (INSERT)
 INSERT INTO Categories (category_name) VALUES 
@@ -83,6 +88,8 @@ INSERT INTO Order_Items (order_id, product_id, quantity, price) VALUES
 (1, 1, 1, 600000), 
 (2, 2, 1, 500000),
 (2, 3, 1, 750000);
+
+
 
 -- 5. ТЕСТІЛІК SQL СҰРАНЫСТАРЫ (SELECT)
 
